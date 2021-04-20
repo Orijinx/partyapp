@@ -37,11 +37,11 @@
                 <div class="col-md-6">
                     <h2>User list</h2>
                     <ul>
-                        <li v-for="item in users">
+                        <li v-for="item in users" class="m-2">
                             <a class="btn btn-primary" data-toggle="collapse" v-bind:href="'#'+item.id" role="button" aria-expanded="false" v-bind:aria-controls="item.id">
                        {{item.name}}
                       </a>
-                            <div class="collapse" v-bind:id="item.id">
+                            <div class="collapse mt-2" v-bind:id="item.id">
                                 <div class="card card-body">
                                     <button v-on:click="delUser(item)" class="btn btn-danger">Delete</button>
                                     <hr>
@@ -49,7 +49,8 @@
                                     <ul>
                                         <li v-for="i in item.mosp">
                                             Name:{{getMosp(i.id_mosp).name}}
-                                            <hr> Amount:{{i.amount}}
+                                            <br> Amount:{{i.amount}}
+                                            <hr>
 
                                         </li>
                                     </ul>
@@ -68,6 +69,40 @@
                         <button type="button" v-on:click="addUser">Add user</button>
                     </form>
                 </div>
+                <div class="row">
+                    <h2>Spents list</h2>
+                    <ul>
+                        <li v-for="item in mosp">
+                            Name:{{item.name}} <br> Total:{{getTotalMosp(item.id)}}
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <hr>
+            <div class="container-fluid">
+                <button class="btn btn-success" v-on:click="Calculate">Calculate result</button>
+
+
+
+                <br>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col" v-for="i in users" :key="index">{{i.name}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="i in users">
+                            <th scope="row">{{i.name}}</th>
+                            <td v-for="i in midlleRes">{{i}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
             </div>
         </div>
     </div>

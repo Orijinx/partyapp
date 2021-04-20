@@ -4,6 +4,10 @@ var app = new Vue({
         users: [{
             id: 0,
             name: "Vlad",
+            mosp: [{ id_mosp: 0, amount: 300 }, { id_mosp: 0, amount: 300 }]
+        }, {
+            id: 1,
+            name: "Igor",
             mosp: [{ id_mosp: 0, amount: 300 }]
         }],
         buffname: "",
@@ -12,7 +16,8 @@ var app = new Vue({
             [{
             id: 0,
             name: "Тестовая запись"
-        }]
+        }],
+        midlleRes: []
     },
     methods: {
         getMosp: function(id) {
@@ -50,6 +55,32 @@ var app = new Vue({
                 amount += i.amount
             });
             return amount
+        },
+        getTotalMosp: function(id) {
+            let total = 0
+            this.users.forEach(i => {
+                i.mosp.forEach(j => {
+                    if (j.id_mosp == id) {
+                        total += j.amount
+                    }
+                })
+            })
+            return total
+        },
+        Calculate: function() {
+            var result = []
+            this.midlleRes = []
+            this.users.forEach(i => {
+                let calc = {
+                    user_id: i.id,
+                    total: this.getSpentAmount(i)
+                }
+                result.push(calc)
+            })
+
+            result.forEach(i => {
+                this.midlleRes.push(i.total / this.users.length)
+            })
         }
     },
 })
