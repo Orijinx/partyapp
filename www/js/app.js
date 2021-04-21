@@ -1,23 +1,18 @@
 var app = new Vue({
     el: '#app',
     data: {
-        users: [{
-            id: 0,
-            name: "Vlad",
-            mosp: [{ id_mosp: 0, amount: 300 }, { id_mosp: 0, amount: 300 }]
-        }, {
-            id: 1,
-            name: "Igor",
-            mosp: [{ id_mosp: 0, amount: 300 }]
-        }],
+        users: [],
         buffname: "",
-        mosp: //MOneq SPent
-
-            [{
+        buffmosp: {
             id: 0,
-            name: "Тестовая запись"
-        }],
-        midlleRes: []
+            name: ""
+        },
+        mosp: //MOneq SPent
+            [],
+        midlleRes: [],
+        sMosp: 0,
+        sTotalMosp: 0,
+        offline: false,
     },
     methods: {
         getMosp: function(id) {
@@ -45,6 +40,40 @@ var app = new Vue({
             console.log(buffuser)
             this.users.push(buffuser)
         },
+        addUMosp: function(item) {
+
+
+            let user = this.users[this.users.indexOf(item)]
+            user.mosp.forEach(el => {
+                if (el.id_mosp == this.sMosp) {
+                    el.amount = el.amount + parseInt(this.sTotalMosp)
+                    user.mosp.push(mosp)
+                    return 1
+                }
+            });
+
+            let mosp = {
+                id_mosp: this.sMosp,
+                amount: this.sTotalMosp
+            }
+            user.mosp.push(mosp)
+            return 0
+
+        },
+        addMosp: function(event) {
+            var buffmsp = {}
+            if (this.mosp[0] != null) {
+                this.buffmosp.id = this.mosp[this.mosp.length - 1].id + 1
+                Object.assign(buffmsp, this.buffmosp);
+
+            } else {
+                Object.assign(buffmsp, this.buffmosp);
+                // buffmsp = this.buffmosp
+            }
+
+            console.log(buffmsp)
+            this.mosp.push(buffmsp)
+        },
         delUser: function(item) {
             this.users.splice(this.users.indexOf(item), 1)
 
@@ -52,7 +81,7 @@ var app = new Vue({
         getSpentAmount(item) {
             let amount = 0
             item.mosp.forEach(i => {
-                amount += i.amount
+                amount += parseInt(i.amount)
             });
             return amount
         },
@@ -61,7 +90,7 @@ var app = new Vue({
             this.users.forEach(i => {
                 i.mosp.forEach(j => {
                     if (j.id_mosp == id) {
-                        total += j.amount
+                        total += parseInt(j.amount)
                     }
                 })
             })
@@ -81,6 +110,16 @@ var app = new Vue({
             result.forEach(i => {
                 this.midlleRes.push(i.total / this.users.length)
             })
-        }
+        },
+
     },
+    // beforeMount() {
+    //     console.log("App is mount")
+    //     Offline.options = { checks: { xhr: { url: 'http://127.0.0.1:5500/www/index.html' } } };
+    //     // Offline.options = { checks: { image: { url: '/img/logo.png' }, active: 'image' } }
+
+    //     // Offline.options = { checks: { image: { url: 'https://www.google.com/' }, active: 'image' } }
+    //     console.log(Offline.check())
+    //     this.offline = Offline.check().offline
+    // },
 })

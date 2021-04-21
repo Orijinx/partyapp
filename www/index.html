@@ -26,16 +26,17 @@
                 </li>
             </ul>
         </div>
+        <h1 style="text-align: center;">PARTY BANK</h1>
+
     </nav>
 
 
 
     <div class="container">
-        <h1 style="text-align: center;">PARTY BANK</h1>
         <div class="container" id="app">
             <div class="row">
                 <div class="col-md-6">
-                    <h2>User list</h2>
+                    <h2>People list</h2>
                     <ul>
                         <li v-for="item in users" class="m-2">
                             <a class="btn btn-primary" data-toggle="collapse" v-bind:href="'#'+item.id" role="button" aria-expanded="false" v-bind:aria-controls="item.id">
@@ -56,31 +57,50 @@
                                     </ul>
                                     <hr>
                                     <p>Total:{{getSpentAmount(item)}}</p>
+                                    <hr>
+                                    <div class="container">
+                                        <h2>Choose spent item</h2>
+                                        <select v-model="sMosp" class="form-control m-3" aria-placeholder="...">
+                                            <option disabled selected>Choose...</option>
+                                            <option v-for="option in mosp" v-bind:value="option.id">
+                                              {{ option.name }}
+                                            </option>
+                                          </select>
+                                        <input type="number" v-model:value="sTotalMosp" class="form-control m-3">
+                                        <button v-on:click="addUMosp(item)" class="btn btn-primary">Add</button>
+                                    </div>
                                 </div>
                             </div>
                         </li>
                     </ul>
                 </div>
+
                 <div class="col-md-6">
                     <h2>Add user</h2>
-                    <form>
-                        {{buffname}}
-                        <input type="text" name="name" id="" v-model:value="buffname" placeholder="Name">
-                        <button type="button" v-on:click="addUser">Add user</button>
-                    </form>
+                    <input type="text" name="name" id="" v-model:value="buffname" placeholder="Name">
+                    <button type="button" v-on:click="addUser" class="btn btn-primary">Add user</button>
                 </div>
-                <div class="row">
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
                     <h2>Spents list</h2>
                     <ul>
                         <li v-for="item in mosp">
                             Name:{{item.name}} <br> Total:{{getTotalMosp(item.id)}}
                         </li>
                     </ul>
-
                 </div>
+                <div class="col-md-6">
+                    <h2>Add spent</h2>
+                    <input type="text" name="name" id="" v-model:value="buffmosp.name" placeholder="Name">
+                    <button type="button" v-on:click="addMosp" class="btn btn-primary">Add mosp</button>
+                </div>
+
             </div>
             <hr>
             <div class="container-fluid">
+                <h2>Debt table</h2>
                 <button class="btn btn-success" v-on:click="Calculate">Calculate result</button>
 
 
@@ -111,8 +131,24 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        function checkOnlineState() {
+            if (navigator.onLine) {
+                // setTimeout(console.log("Online..."), 100);
+                console.log("Online...")
+            } else {
+                window.location = "/www/404.html";
+            }
+        }
+        // window.addEventListener('online', checkOnlineState);
+        checkOnlineState();
+    </script>
+
     <script src="js/vue.js"></script>
+    <!-- <script src="js/offline.js"></script> -->
     <script src="js/app.js"></script>
+
+
 </body>
 
 </html>
